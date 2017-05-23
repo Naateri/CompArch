@@ -3,10 +3,17 @@
 #include <string>
 
 using namespace std;
+
+vector<int> MakeVector(){
+	vector<int> v;
+	for (int i = 0; i < 32; i++)
+		 v.push_back(1);
+}
+
 class CicloSimple{
 private:
 	static int PC;
-	static vector<int> $; //registros
+	static vector<int> regs;
 	bool ALUSrc;
 	int ALUFunc;
 	bool RegWrite;
@@ -21,16 +28,25 @@ private:
 	int PCSrc;
 	int op;
 	int fn;
-	
+	int rd;
+	int rs;
+	int rt;
+	string inst;
+	void interpretar(){
+		cout << "Program counter: " << this->PC << endl;
+		cout << "Instruccion: " << this->inst << endl;
+		if (this->fn >= 32){
+			cout << "Tipo: ALU\n";
+		}
+		if (this->op < 32 && this-> op > 5){
+			cout << "ALU inmediato\n";
+		}
+		this->PC += 4;
+		cout << "Program Counter (finished): " << this->PC << endl;
+	}
 public:
 	CicloSimple(){
-		this->ALUSrc = 0;
-		this->ALUFunc = 0;
-		this->RegDst = 0;
-		if ($.empty()){
-			for (int i = 0; i < 31; i++)
-				$.push_back(0);
-		}
+		;
 	}
 	void lui(int reg, int imm);
 	void add(int rd, int rs, int rt){
@@ -46,7 +62,20 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
-		
+		this->inst = "add";
+		this->rd = regs.at(rd);
+		//this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		int res;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "rd: " << this->rd << endl;
+		cout << "Operacion ALU suma\n";
+		res = rs + rd;
+		regs.at(rt) = res;
+		cout << "Resultado guardado en " << rt << ": " << res << endl;
+		cout << "Guardando resultados.\n";
 	}
 	void sub(int rd, int rs, int rt);
 	void slt(int rd, int rs, int rt);
@@ -70,9 +99,10 @@ public:
 };
 
 int CicloSimple::PC = 0;
+vector<int> CicloSimple::regs = MakeVector();
 
 int main(int argc, char *argv[]) {
-
+	CicloSimple MIPS;
+	MIPS.add(3, 4, 5);
 	return 0;
 }
-
