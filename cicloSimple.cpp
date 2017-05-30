@@ -11,9 +11,15 @@ vector<int> MakeVector(){
 	return v;
 }
 
+void makeArray(int *a){
+	for (int i = 0; i < 32; i++)
+		*(a+i) = 1;
+}
+
 class CicloSimple{
 private:
 	static int PC;
+	//static int* regs;
 	static vector<int> regs;
 	bool ALUSrc;
 	int ALUFunc;
@@ -38,9 +44,11 @@ private:
 		cout << "Instruccion: " << this->inst << endl;
 		if (this->fn >= 32){
 			cout << "Tipo: ALU\n";
+			cout << "Ciclos de reloj: 4\n";
 		}
 		if (this->op < 32 && this-> op > 5){
 			cout << "ALU inmediato\n";
+			cout << "Ciclos de reloj: 4\n";
 		}
 		this->PC += 4;
 		cout << "Program Counter (finished): " << this->PC << endl;
@@ -64,25 +72,26 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 0;
 		this->inst = "add";
-		this->rd = regs.at(rd);
+		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
-		cout << "rd: " << this->rd << endl;
+		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU suma\n";
-		res = rs + rd;
-		regs.at(rt) = res;
-		cout << "Resultado guardado en " << rt << ": " << res << endl;
+		res = this->rs + this->rt;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void sub(int rd, int rs, int rt){
 		this->op = 0;
 		this->fn = 34;
 		this->RegWrite = 1;
 		this->RegDst = 1;
-		this->RegInSrc = 1 ;
+		this->RegInSrc = 1;
 		this->ALUSrc = 0;
 		this->AddSub = 1;
 		this->FnClass = 2;
@@ -90,6 +99,20 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "sub";
+		this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "rt: " << this->rt << endl;
+		cout << "Operacion ALU resta\n";
+		res = this->rs - this->rt;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void slt(int rd, int rs, int rt){
 		this->op = 0;
@@ -117,6 +140,19 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "addi";
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "imm: " << imm << endl;
+		cout << "Operacion ALU suma inmediata\n";
+		res = this->rs + imm;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void slti(int rd, int rs, int imm){
 		this->op = 18;
@@ -144,6 +180,20 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "and";
+		this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "rt: " << this->rt << endl;
+		cout << "Operacion ALU and\n";
+		res = this->rs & this->rt;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void OR(int rd, int rs, int rt){
 		this->op = 0;
@@ -158,6 +208,20 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "or";
+		this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "rt: " << this->rt << endl;
+		cout << "Operacion ALU or\n";
+		res = this->rs | this->rt;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void XOR(int rd, int rs, int rt){
 		this->op = 0;
@@ -172,7 +236,20 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
-		
+		this->inst = "xor";
+		this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "rt: " << this->rt << endl;
+		cout << "Operacion ALU xor\n";
+		res = this->rs ^ this->rt;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void NOR(int rd, int rs, int rt){
 		this->op = 0;
@@ -187,6 +264,20 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "nor";
+		this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "rt: " << this->rt << endl;
+		cout << "Operacion ALU nor\n";
+		res = ~(this->rs | this->rt);
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void andi(int rd, int rs, int imm){
 		this->op = 24;
@@ -200,6 +291,31 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->op = 0;
+		this->fn = 36;
+		this->RegWrite = 1;
+		this->RegDst = 1;
+		this->RegInSrc =1 ;
+		this->ALUSrc = 0;
+		this->LogicFn = 0;
+		this->FnClass = 3;
+		this->DataRead = 0;
+		this->DataWrite = 0;
+		this->BrType = 0;
+		this->PCSrc = 0;
+		this->inst = "andi";
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "imm: " << imm << endl;
+		cout << "Operacion ALU and inmediato\n";
+		res = this->rs & imm;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void ori(int rd, int rs, int imm){
 		this->op = 26;
@@ -304,11 +420,19 @@ public:
 
 int CicloSimple::PC = 0;
 vector<int> CicloSimple::regs = MakeVector();
+/*int* CicloSimple::regs = 0;
+makeArray(regs);*/
 
 int main(int argc, char *argv[]) {
 	//while (true){
 		CicloSimple MIPS;
 		MIPS.add(3, 4, 5);
+		//MIPS.sub(10, 5, 5);
+		MIPS.addi(3, 3, 5);
+		MIPS.AND(6, 3, 3);
+		MIPS.OR(7, 3, 6);
+		MIPS.XOR(10, 7, 6);
+		MIPS.andi(4, 3, 10);
 	//}
 	return 0;
 }
