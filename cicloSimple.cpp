@@ -8,6 +8,7 @@ vector<int> MakeVector(){
 	vector<int> v;
 	for (int i = 0; i < 32; i++)
 		 v.push_back(1);
+	return v;
 }
 
 class CicloSimple{
@@ -64,9 +65,8 @@ public:
 		this->PCSrc = 0;
 		this->inst = "add";
 		this->rd = regs.at(rd);
-		//this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
-		int res;
+		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
@@ -77,25 +77,6 @@ public:
 		cout << "Resultado guardado en " << rt << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 	}
-
-	
-	
-	/*void add(int rd, int rs, int rt){
-		this->op = 0;
-		this->fn = 32;
-		this->RegWrite = 1;
-		this->RegDst = 1;
-		this->RegInSrc = 1;
-		this->ALUSrc = 0;
-		this->AddSub = 0;
-		this->FnClass = 2;
-		this->DataRead = 0;
-		this->DataWrite = 0;
-		this->BrType = 0;
-		this->PCSrc = 0;
-		
-	}
-	*/
 	void sub(int rd, int rs, int rt){
 		this->op = 0;
 		this->fn = 34;
@@ -319,14 +300,15 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 3;
 	}
-
 };
 
 int CicloSimple::PC = 0;
 vector<int> CicloSimple::regs = MakeVector();
 
 int main(int argc, char *argv[]) {
-	CicloSimple MIPS;
-	MIPS.add(3, 4, 5);
+	//while (true){
+		CicloSimple MIPS;
+		MIPS.add(3, 4, 5);
+	//}
 	return 0;
 }
