@@ -8,12 +8,12 @@ vector<int> MakeVector(){
 	vector<int> v;
 	for (int i = 0; i < 32; i++)
 		 v.push_back(1);
-	return v;
+		 return v;
 }
 
 void makeArray(int *a){
 	for (int i = 0; i < 32; i++)
-		*(a+i) = 1;
+		 *(a+i) = 1;
 }
 
 class CicloSimple{
@@ -329,6 +329,19 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "ori";
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "imm: " << imm << endl;
+		cout << "Operacion ALU or inmediato\n";
+		res = this->rs | imm;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void xori(int rd, int rs, int imm){
 		this->op = 28;
@@ -342,7 +355,21 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "xori";
+		this->rs = regs.at(rs);
+		int res = 0;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "imm: " << imm << endl;
+		cout << "Operacion ALU xor inmediato\n";
+		res = this->rs ^ imm;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
+	
 	void lw(int rt, int imm){
 		this->op = 35;
 		this->RegWrite = 1;
@@ -355,7 +382,18 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "lw";
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rt: " << this->rt << endl;
+		cout << "imm: " << imm << endl;
+		cout << "Operacion Acceso a Memoria lw \n";
+		regs.at(rt) = imm;
+		cout << "Copiando en " << rt << ": " << imm << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
+	///revisar esto
 	void sw(int rt, int imm){
 		this->op = 51;
 		this->RegWrite = 0;
@@ -366,6 +404,16 @@ public:
 		this->DataWrite = 1;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "sw";
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rt: " << this->rt << endl;
+		cout << "imm: " << imm << endl;
+		cout << "Operacion Acceso a Memoria sw \n";
+		regs.at(rt) = imm;
+		cout << "Copiando en " << rt << ": " << imm << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void j(string L){
 		this->op = 2;
@@ -373,6 +421,7 @@ public:
 		this->DataRead = 0;
 		this->DataWrite = 0;
 		this->PCSrc = 1;
+		this->inst = "j";
 	}
 	void jr(int rs){
 		this->op = 0;
@@ -381,6 +430,7 @@ public:
 		this->DataRead = 0;
 		this->DataWrite = 0;
 		this->PCSrc = 2;
+		this->inst = "jr";
 	}
 	void bltz(int rs, string L){
 		this->op = 1;
@@ -389,6 +439,7 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 3;
 		this->PCSrc = 0;
+		this->inst = "bltz";
 	}
 	void beq(int rs, int rt, string){
 		this->op = 4;
@@ -397,6 +448,7 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 1;
 		this->PCSrc = 0;
+		this->inst = "beq";
 	}
 	void bne(int rs, int rt, string){
 		this->op = 6;
@@ -405,6 +457,7 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 2;
 		this->PCSrc = 0;
+		this->inst = "bne";
 	}
 	void jal(string L){
 		this->op = 6;
@@ -415,6 +468,7 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 3;
+		this->inst = "jal";
 	}
 };
 
@@ -424,15 +478,18 @@ vector<int> CicloSimple::regs = MakeVector();
 makeArray(regs);*/
 
 int main(int argc, char *argv[]) {
-	//while (true){
-		CicloSimple MIPS;
-		MIPS.add(3, 4, 5);
-		//MIPS.sub(10, 5, 5);
-		MIPS.addi(3, 3, 5);
-		MIPS.AND(6, 3, 3);
-		MIPS.OR(7, 3, 6);
-		MIPS.XOR(10, 7, 6);
-		MIPS.andi(4, 3, 10);
+	//while (true){no quiero dejarlo comentado maricon 
+	CicloSimple *MIPS = new CicloSimple;
+	MIPS->add(3, 4, 5);
+	//MIPS.sub(10, 5, 5);
+	//MIPS.addi(3, 3, 5);
+	//MIPS.AND(6, 3, 3);
+	//MIPS.OR(7, 3, 6);
+	//MIPS.XOR(10, 7, 6);
+	MIPS->andi(4, 3, 10);
+	MIPS->ori(7, 3, 6);
+	MIPS->xori(7, 3, 4);
 	//}
+	delete MIPS;
 	return 0;
 }
