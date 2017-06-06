@@ -3,6 +3,14 @@
 #include <string>
 
 using namespace std;
+int busqui(string funci, string *punte){
+	for(int i=0;i<22;i++){
+		if(funci == *(punte+i)){
+			return i;
+		}
+	}
+	return -1;
+}
 
 vector<int> MakeVector(){
 	vector<int> v;
@@ -470,6 +478,84 @@ public:
 		this->PCSrc = 3;
 		this->inst = "jal";
 	}
+	void syscall(){;}
+	
+	void call(){
+		string arreglito[] = {"add","sub","slt","and","or","nor","xor","lui","addi","slti","andi","ori","xori", "sw","lw", "bltz","beq","bne", "j","jr","jal","syscall"};
+		string funcion;
+		int funqui;
+		cin >> funcion;
+		funqui = busqui(funcion,arreglito);
+		switch(funqui){
+		case 0:
+			this->add(1, 2, 3);
+			break;
+		case 1:
+			this->sub(1, 2, 3);
+			break;
+		case 2:
+			this->slt(1, 2, 3);
+			break;
+		case 3:
+			this->AND(1, 2, 3);
+			break;
+		case 4:
+			this->OR(1, 2, 3);
+			break;
+		case 5:
+			this->NOR(1, 2, 3);
+			break;
+		case 6:
+			this->XOR(1, 2, 3);
+			break;
+		case 7:
+			//this->lui(1,2); // arreglaaaaaaaaaa
+		case 8:
+			this->addi(1, 2, 3);
+			break;
+		case 9:
+			this->slti(1, 2, 3);
+			break;
+		case 10:
+			this->andi(1, 2, 3);	
+			break;
+		case 11:
+			this->ori(1, 2, 3);
+			break;
+		case 12:
+			this->xori(1, 2, 3);
+			break;
+		case 13:
+			//this->xori(1, 2, 3);
+		case 14:
+			this->lw(1,2); //arreglaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	
+			break;
+		case 15:
+			this->bltz(1,"me");
+			break;
+		case 16:
+			this->beq(1, 2, "dueles");
+			break;
+		case 17:
+			this->bne(1, 2, "demasiado");
+			break;
+		case 18:
+			this->j("yaes");
+			break;
+		case 19:
+			this->jr(73);
+			break;
+		case 20:
+			this->jal("Casar conmigo? -NO ");
+			break;
+		case 21:
+			this->syscall();
+			break;
+		default:
+			cout<<"No se encontro la funcion"<<endl;
+			break;
+		}
+	}
 };
 
 int CicloSimple::PC = 0;
@@ -480,7 +566,10 @@ makeArray(regs);*/
 int main(int argc, char *argv[]) {
 	//while (true){no quiero dejarlo comentado maricon 
 	CicloSimple *MIPS = new CicloSimple;
-	MIPS->add(3, 4, 5);
+	while(1){
+		MIPS->call();
+	}
+	/*MIPS->add(3, 4, 5);
 	//MIPS.sub(10, 5, 5);
 	//MIPS.addi(3, 3, 5);
 	//MIPS.AND(6, 3, 3);
@@ -488,7 +577,7 @@ int main(int argc, char *argv[]) {
 	//MIPS.XOR(10, 7, 6);
 	MIPS->andi(4, 3, 10);
 	MIPS->ori(7, 3, 6);
-	MIPS->xori(7, 3, 4);
+	MIPS->xori(7, 3, 4);*/
 	//}
 	delete MIPS;
 	return 0;
