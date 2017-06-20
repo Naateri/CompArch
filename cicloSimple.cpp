@@ -41,6 +41,7 @@ private:
 	bool DataWrite;
 	int BrType;
 	int PCSrc;
+	bool jumpi; ///agregando porque si no tiene nada que ver con mips
 	int op;
 	int fn;
 	int rd;
@@ -48,15 +49,37 @@ private:
 	int rt;
 	string inst;
 	void interpretar(){
+		cout<<"\n";
 		cout << "Program counter: " << this->PC << endl;
 		cout << "Instruccion: " << this->inst << endl;
+		cout << "Leyendo la instruccion y guardandola en el registro de instrucciones,\nincrementando Program Counter + 4\n";
+		cout << "Leyendo rs y rt en los registros x & y, calculando la direccion de la sucursal\ny guardando en EL registro z.\n";
 		if (this->fn >= 32){
 			cout << "Tipo: ALU\n";
+			cout << "Realizando operacion ALU y guardando el resultado en el registro z.\n";
+			cout << "Escribir el registro z en rd.\n";
 			cout << "Ciclos de reloj: 4\n";
 		}
-		if (this->op < 32 && this-> op > 5){
+		else if (this->op < 32 && this-> op > 5){
 			cout << "ALU inmediato\n";
+			cout << "Escribir el registro z en rd.\n";
 			cout << "Ciclos de reloj: 4\n";
+		}
+		else if(this->op == 35){
+			cout << "Load operation.\n";
+			cout << "Agregar valores base y offset, guardar en el registro z.\n";
+			cout << "Leer memoria en los registros\n";
+			cout << "Copiar el registro en rt\n";
+			cout << "Ciclos de reloj: 5\n";
+		} else if (this->op == 51){
+			cout << "Load operation.\n";
+			cout << "Agregar valores base y offset, guardar en el registro z.\n";
+			cout << "Copiar el registro y en la memoria.\n";
+			cout << "Ciclos de reloj: 4\n";
+		} else if (this->jumpi){
+			cout << "Jump operation.\n";
+			cout << "Darle al PC la direccion destino\n";
+			cout << "Ciclos de reloj: 3\n";
 		}
 		this->PC += 4;
 		cout << "Program Counter (finished): " << this->PC << endl;
@@ -429,7 +452,11 @@ public:
 		this->DataRead = 0;
 		this->DataWrite = 0;
 		this->PCSrc = 1;
+		this->jumpi = 1;
 		this->inst = "j";
+		interpretar();
+		cout << "Operacion Jump\n";
+		cout << "Saltando a " << L << endl;
 	}
 	void jr(int rs){
 		this->op = 0;
@@ -438,7 +465,9 @@ public:
 		this->DataRead = 0;
 		this->DataWrite = 0;
 		this->PCSrc = 2;
+		this->jumpi = 1;
 		this->inst = "jr";
+		interpretar();
 	}
 	void bltz(int rs, string L){
 		this->op = 1;
@@ -447,7 +476,9 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 3;
 		this->PCSrc = 0;
+		this->jumpi = 1;
 		this->inst = "bltz";
+		interpretar();
 	}
 	void beq(int rs, int rt, string){
 		this->op = 4;
@@ -456,7 +487,9 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 1;
 		this->PCSrc = 0;
+		this->jumpi = 1;
 		this->inst = "beq";
+		interpretar();
 	}
 	void bne(int rs, int rt, string){
 		this->op = 6;
@@ -465,7 +498,9 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 2;
 		this->PCSrc = 0;
+		this->jumpi = 1;
 		this->inst = "bne";
+		interpretar();
 	}
 	void jal(string L){
 		this->op = 6;
@@ -476,7 +511,9 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 3;
+		this->jumpi = 1;
 		this->inst = "jal";
+		interpretar();
 	}
 	void syscall(){;}
 	
@@ -526,27 +563,28 @@ public:
 			this->xori(1, 2, 3);
 			break;
 		case 13:
-			//this->xori(1, 2, 3);
+			this->sw(1, 2);
+			break;
 		case 14:
-			this->lw(1,2); //arreglaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	
+			this->lw(1,2);
 			break;
 		case 15:
-			this->bltz(1,"me");
+			this->bltz(1,"loop");
 			break;
 		case 16:
-			this->beq(1, 2, "dueles");
+			this->beq(1, 2, "loop");
 			break;
 		case 17:
-			this->bne(1, 2, "demasiado");
+			this->bne(1, 2, "loop");
 			break;
 		case 18:
-			this->j("yaes");
+			this->j("loop");
 			break;
 		case 19:
 			this->jr(73);
 			break;
 		case 20:
-			this->jal("Casar conmigo? -NO ");
+			this->jal("loop");
 			break;
 		case 21:
 			this->syscall();
