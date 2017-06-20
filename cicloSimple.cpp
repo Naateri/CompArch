@@ -602,7 +602,7 @@ vector<int> CicloSimple::regs = MakeVector();
 makeArray(regs);*/
 
 int main(int argc, char *argv[]) {
-	//while (true){no quiero dejarlo comentado maricon 
+	//while (true){
 	CicloSimple *MIPS = new CicloSimple;
 	while(1){
 		MIPS->call();
