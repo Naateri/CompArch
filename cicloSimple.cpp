@@ -16,13 +16,13 @@ int busqui(string funci, string *punte){
 vector<int> MakeVector(){
 	vector<int> v;
 	for (int i = 0; i < 32; i++)
-		 v.push_back(1);
-		 return v;
+		v.push_back(1);
+	return v;
 }
 
 void makeArray(int *a){
 	for (int i = 0; i < 32; i++)
-		 *(a+i) = 1;
+		*(a+i) = 1;
 }
 
 class CicloSimple{
@@ -54,7 +54,7 @@ private:
 		cout<<"  -------------------------------------------------------------------------------"  <<endl;
 		cout<<" |                                _______                                        |" <<endl;
 		cout<<" |                               |       \\                                       |"  <<endl;
-		cout<<" |         _______               |        \\           Guardando en rd:"<<this->rd<<"             |"  <<endl;
+		cout<<" |         _______               |        \\           Guardando en rd:"<<regs.at(this->rd)<<"           |"  <<endl;
 		cout<<" |        |       |              |         \\             ____________            |"  <<endl;
 		cout<<" |        |  Reg  |  ---->rs:"<<this->rs<<"   |          |           |            |           |"  <<endl;
 		cout<<" | |      |       |              |   ALU    |   ----->  | Data Cache |----       |"  <<endl;
@@ -148,14 +148,15 @@ public:
 		this->inst = "add";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU suma\n";
 		res = this->rs + this->rt;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -176,14 +177,15 @@ public:
 		this->inst = "sub";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU resta\n";
 		res = this->rs - this->rt;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -204,8 +206,8 @@ public:
 		this->inst = "slt";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		bool res;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "rt: " << this->rt << endl;
@@ -213,6 +215,7 @@ public:
 		if(this->rs < this->rt) res = 1;
 		else res = 0;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << (int)res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -231,14 +234,15 @@ public:
 		this->PCSrc = 0;
 		this->inst = "addi";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "imm: " << imm << endl;
 		cout << "Operacion ALU suma inmediata\n";
 		res = this->rs + imm;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -256,9 +260,9 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 0;
 		this->inst = "slti";
-		this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		this->rd = rd;
 		bool res;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "imm: " << imm << endl;
@@ -266,6 +270,7 @@ public:
 		if(this->rs < imm) res = 1;
 		else res = 0;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << int(res) << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -286,14 +291,15 @@ public:
 		this->inst = "and";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU and\n";
 		res = this->rs & this->rt;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -314,14 +320,15 @@ public:
 		this->inst = "or";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU or\n";
 		res = this->rs | this->rt;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -342,14 +349,15 @@ public:
 		this->inst = "xor";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU xor\n";
 		res = this->rs ^ this->rt;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -370,14 +378,15 @@ public:
 		this->inst = "nor";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU nor\n";
 		res = ~(this->rs | this->rt);
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -408,14 +417,15 @@ public:
 		this->PCSrc = 0;
 		this->inst = "andi";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "imm: " << imm << endl;
 		cout << "Operacion ALU and inmediato\n";
 		res = this->rs & imm;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -434,14 +444,15 @@ public:
 		this->PCSrc = 0;
 		this->inst = "ori";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "imm: " << imm << endl;
 		cout << "Operacion ALU or inmediato\n";
 		res = this->rs | imm;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -460,14 +471,15 @@ public:
 		this->PCSrc = 0;
 		this->inst = "xori";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rs: " << this->rs << endl;
 		cout << "imm: " << imm << endl;
 		cout << "Operacion ALU xor inmediato\n";
 		res = this->rs ^ imm;
 		regs.at(rd) = res;
+		interpretar();
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -487,12 +499,12 @@ public:
 		this->PCSrc = 0;
 		this->fn = 0;
 		this->inst = "lw";
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rt: " << this->rt << endl;
 		cout << "imm: " << imm << endl;
 		cout << "Operacion Acceso a Memoria lw \n";
 		regs.at(rt) = imm;
+		interpretar();
 		cout << "Copiando en " << rt << ": " << imm << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -509,12 +521,12 @@ public:
 		this->PCSrc = 0;
 		this->fn = 0;
 		this->inst = "sw";
-		interpretar();
 		cout << "Reg file:\n";
 		cout << "rt: " << this->rt << endl;
 		cout << "imm: " << imm << endl;
 		cout << "Operacion Acceso a Memoria sw \n";
 		regs.at(rt) = imm;
+		interpretar();
 		cout << "Copiando en " << rt << ": " << imm << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -552,6 +564,7 @@ public:
 		this->PCSrc = 0;
 		this->jumpi = 1;
 		this->inst = "bltz";
+		this->rs = regs.at(rs);
 		interpretar();
 		cout << "Operacion Less Than zero\n";
 		if (rs < 0) cout << "Saltando a " << L << endl;
@@ -567,6 +580,7 @@ public:
 		this->jumpi = 1;
 		this->fn = 0;
 		this->inst = "beq";
+		this->rs = regs.at(rs);
 		interpretar();
 		cout << "Operacion Equal than\n";
 		if (rs == rt) cout << "Saltando a " << L << endl;
@@ -582,6 +596,7 @@ public:
 		this->jumpi = 1;
 		this->fn = 0;
 		this->inst = "bne";
+		this->rs = regs.at(rs);
 		interpretar();
 		cout << "Operacion Not Equal than\n";
 		if (rs != rt) cout << "Saltando a " << L << endl;
