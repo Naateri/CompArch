@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 int busqui(string funci, string *punte){
-	for(int i=0;i<22;i++){
+	for(int i=0;i<23;i++){
 		if(funci == *(punte+i)){
 			return i;
 		}
@@ -57,19 +58,19 @@ private:
 		if (this->fn >= 32){
 			cout << "Tipo: ALU\n";
 			cout << "Realizando operacion ALU y guardando el resultado en el registro z.\n";
-			cout << "Escribir el registro z en rd.\n";
+			cout << "Escribir el registro z en rd (" << this->rd << ").\n";
 			cout << "Ciclos de reloj: 4\n";
 		}
 		else if (this->op < 32 && this-> op > 5){
 			cout << "ALU inmediato\n";
-			cout << "Escribir el registro z en rd.\n";
+			cout << "Escribir el registro z en rd (" << this->rd << ").\n";
 			cout << "Ciclos de reloj: 4\n";
 		}
 		else if(this->op == 35){
 			cout << "Load operation.\n";
 			cout << "Agregar valores base y offset, guardar en el registro z.\n";
 			cout << "Leer memoria en los registros\n";
-			cout << "Copiar el registro en rt\n";
+			cout << "Copiar el registro en rt(" << this->rt << ").\n";
 			cout << "Ciclos de reloj: 5\n";
 		} else if (this->op == 51){
 			cout << "Load operation.\n";
@@ -88,7 +89,22 @@ public:
 	CicloSimple(){
 		;
 	}
-	void lui(int reg, int imm);
+	void li(int reg, int imm){
+		this->inst = "li";
+		this->rd = reg;
+		int res;
+		//interpretar();
+		cout << "Reg file:\n";
+		cout << "imm: " << imm << endl;
+		cout << "Operacion load immediate\n";
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << this->rd << ": " << imm << endl;
+		cout << "li operation\n";
+		cout << "Cargando en " << this->rd << " el valor de " << imm << endl;
+		cout << "Ciclos de reloj: 3\n";
+		cout << "Guardando resultados.\n";
+		cout << endl;
+	}
 	void add(int rd, int rs, int rt){
 		this->fn = 32;
 		this->op = 0;
@@ -158,6 +174,21 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "slt";
+		this->rt = regs.at(rt);
+		this->rs = regs.at(rs);
+		bool res;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "rt: " << this->rt << endl;
+		cout << "Operacion Set Less Than\n";
+		if(this->rs < this->rt) res = 1;
+		else res = 0;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << (int)res << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void addi(int rd, int rs, int imm){
 		this->op = 16;
@@ -197,6 +228,20 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->inst = "slti";
+		this->rt = regs.at(rt);
+		bool res;
+		interpretar();
+		cout << "Reg file:\n";
+		cout << "rs: " << this->rs << endl;
+		cout << "imm: " << imm << endl;
+		cout << "Operacion Set Less Than Immediate\n";
+		if(this->rs < imm) res = 1;
+		else res = 0;
+		regs.at(rd) = res;
+		cout << "Resultado guardado en " << rd << ": " << int(res) << endl;
+		cout << "Guardando resultados.\n";
+		cout << endl;
 	}
 	void AND(int rd, int rs, int rt){
 		this->op = 0;
@@ -424,7 +469,6 @@ public:
 		cout << "Guardando resultados.\n";
 		cout << endl;
 	}
-	///revisar esto
 	void sw(int rt, int imm){
 		this->op = 51;
 		this->RegWrite = 0;
@@ -479,8 +523,11 @@ public:
 		this->jumpi = 1;
 		this->inst = "bltz";
 		interpretar();
+		cout << "Operacion Less Than zero\n";
+		if (rs < 0) cout << "Saltando a " << L << endl;
+		else cout << "No pasa nada.\n";
 	}
-	void beq(int rs, int rt, string){
+	void beq(int rs, int rt, string L){
 		this->op = 4;
 		this->RegWrite = 0;
 		this->DataRead = 0;
@@ -490,8 +537,11 @@ public:
 		this->jumpi = 1;
 		this->inst = "beq";
 		interpretar();
+		cout << "Operacion Equal than\n";
+		if (rs == rt) cout << "Saltando a " << L << endl;
+		else cout << "No pasa nada.\n";
 	}
-	void bne(int rs, int rt, string){
+	void bne(int rs, int rt, string L){
 		this->op = 6;
 		this->RegWrite = 0;
 		this->DataRead = 0;
@@ -501,6 +551,9 @@ public:
 		this->jumpi = 1;
 		this->inst = "bne";
 		interpretar();
+		cout << "Operacion Not Equal than\n";
+		if (rs != rt) cout << "Saltando a " << L << endl;
+		else cout << "No pasa nada.\n";
 	}
 	void jal(string L){
 		this->op = 6;
@@ -518,10 +571,10 @@ public:
 	void syscall(){;}
 	
 	void call(){
-		string arreglito[] = {"add","sub","slt","and","or","nor","xor","lui","addi","slti","andi","ori","xori", "sw","lw", "bltz","beq","bne", "j","jr","jal","syscall"};
+		string arreglito[] = {"add","sub","slt","and","or","nor","xor","li","addi","slti","andi","ori","xori","sw","lw","bltz","beq","bne","j","jr","jal","syscall","close"};
 		string funcion;
 		int funqui;
-		cin >> funcion;
+		getline(cin, funcion);
 		funqui = busqui(funcion,arreglito);
 		switch(funqui){
 		case 0:
@@ -546,7 +599,8 @@ public:
 			this->XOR(1, 2, 3);
 			break;
 		case 7:
-			//this->lui(1,2); // arreglaaaaaaaaaa
+			this->li(1,2); 
+			break;
 		case 8:
 			this->addi(1, 2, 3);
 			break;
@@ -588,6 +642,10 @@ public:
 			break;
 		case 21:
 			this->syscall();
+			break;
+		case 22:
+			cout << "Hasta luego!";
+			exit(69);
 			break;
 		default:
 			cout<<"No se encontro la funcion"<<endl;
