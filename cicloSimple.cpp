@@ -49,17 +49,44 @@ private:
 	int rs;
 	int rt;
 	string inst;
+	void printALU(){
+		cout<<endl;
+		cout<<"  -------------------------------------------------------------------------------"  <<endl;
+		cout<<" |                                _______                                        |" <<endl;
+		cout<<" |                               |       \\                                       |"  <<endl;
+		cout<<" |         _______               |        \\           Guardando en rd:"<<this->rd<<"             |"  <<endl;
+		cout<<" |        |       |              |         \\             ____________            |"  <<endl;
+		cout<<" |        |  Reg  |  ---->rs:"<<this->rs<<"   |          |           |            |           |"  <<endl;
+		cout<<" | |      |       |              |   ALU    |   ----->  | Data Cache |----       |"  <<endl;
+		cout<<" | |      |  File |  ---->rt:"<<this->rt<<"   |          |           |____________|    |      |"  <<endl;
+		cout<<" | |  --> |_______|    |         |         /                              |      |"  <<endl;
+		cout<<" | | |                 | imm     |        /                               |      |"  <<endl;
+		cout<<" |  -+-----------------          |_______/                                |      |"  <<endl;
+		cout<<" |   |                                                                    |      |"  <<endl;
+		cout<<" |    --------------------------------------------------------------------       |"  <<endl;
+		cout<<" |                                                                               |"  <<endl;
+		cout<<" |                                                                               |"  <<endl;
+		cout<<" |                 .........................................                     |"  <<endl;
+		cout<<" |                 :                                       :                     |"  <<endl;
+		cout<<" |                 :               CONTROL                 :                     |"  <<endl;
+		cout<<" |                 :                                       :                     |"  <<endl;
+		cout<<" |                 :.......................................:                     |"  <<endl;
+		cout<<" |                                                                               |"  <<endl;
+		cout<<" |                                                                               |"  <<endl;
+		cout<<"  -------------------------------------------------------------------------------"  <<endl;
+	}
 	void interpretar(){
 		cout<<"\n";
 		cout << "Program counter: " << this->PC << endl;
 		cout << "Instruccion: " << this->inst << endl;
 		cout << "Leyendo la instruccion y guardandola en el registro de instrucciones,\nincrementando Program Counter + 4\n";
 		cout << "Leyendo rs y rt en los registros x & y, calculando la direccion de la sucursal\ny guardando en EL registro z.\n";
-		if (this->fn >= 32){
+		if (this->fn >= 32 && this->fn != 0){
 			cout << "Tipo: ALU\n";
 			cout << "Realizando operacion ALU y guardando el resultado en el registro z.\n";
 			cout << "Escribir el registro z en rd (" << this->rd << ").\n";
 			cout << "Ciclos de reloj: 4\n";
+			printALU();
 		}
 		else if (this->op < 32 && this-> op > 5){
 			cout << "ALU inmediato\n";
@@ -458,6 +485,7 @@ public:
 		this->DataWrite = 0;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->fn = 0;
 		this->inst = "lw";
 		interpretar();
 		cout << "Reg file:\n";
@@ -479,6 +507,7 @@ public:
 		this->DataWrite = 1;
 		this->BrType = 0;
 		this->PCSrc = 0;
+		this->fn = 0;
 		this->inst = "sw";
 		interpretar();
 		cout << "Reg file:\n";
@@ -496,6 +525,7 @@ public:
 		this->DataRead = 0;
 		this->DataWrite = 0;
 		this->PCSrc = 1;
+		this->fn = 0;
 		this->jumpi = 1;
 		this->inst = "j";
 		interpretar();
@@ -535,6 +565,7 @@ public:
 		this->BrType = 1;
 		this->PCSrc = 0;
 		this->jumpi = 1;
+		this->fn = 0;
 		this->inst = "beq";
 		interpretar();
 		cout << "Operacion Equal than\n";
@@ -549,6 +580,7 @@ public:
 		this->BrType = 2;
 		this->PCSrc = 0;
 		this->jumpi = 1;
+		this->fn = 0;
 		this->inst = "bne";
 		interpretar();
 		cout << "Operacion Not Equal than\n";
@@ -565,6 +597,7 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 3;
 		this->jumpi = 1;
+		this->fn = 0;
 		this->inst = "jal";
 		interpretar();
 	}
