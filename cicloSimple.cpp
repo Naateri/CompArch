@@ -98,6 +98,27 @@ private:
 		cout<<" |                                                                               |"  <<endl;
 		cout<<"  -------------------------------------------------------------------------------"  <<endl;
 	}
+	void printJumpi(){
+		cout<<"                                          "<<endl;
+		cout<<"                                          "<<endl;
+		cout<<"                                          "<<endl;
+		cout<<"                                          "<<endl;
+		cout<<"    ______________                          "<<endl;
+		cout<<"   |              |  <-------------------  "<<endl;
+		cout<<" - | Next Address |  <---                |       "<<endl;
+		cout<<"|  |______________|     |                | j      "<<endl;
+		cout<<"|            ___________|                | jal             "<<endl;
+		cout<<"|    ____   |       ___________          |                    "<<endl;
+		cout<<"|   |    |  |      |           |         |      "<<endl;
+		cout<<"- > | PC | ------> | Ins cache | --o--o--o                                      "<<endl;
+		cout<<"    |____|         |___________|   |  |         "<<endl;
+		cout<<"                                   |  |      "<<endl;
+		cout<<"                                op |  | fun      "<<endl;
+		cout<<"                                   |  |      "<<endl;
+		cout<<"                                   |  |      "<<endl;
+		cout<<"                                          "<<endl;
+		//cout<<"                                          "<<endl;
+	}
 	void interpretar(){
 		cout<<"\n";
 		cout << "Program counter: " << this->PC << endl;
@@ -131,6 +152,7 @@ private:
 			cout << "Jump operation.\n";
 			cout << "Darle al PC la direccion destino\n";
 			cout << "Ciclos de reloj: 3\n";
+			printJumpi();
 		}
 		this->PC += 4;
 		cout << "Program Counter (finished): " << this->PC << endl;
@@ -223,7 +245,7 @@ public:
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU resta\n";
 		res = this->rs - this->rt;
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -253,7 +275,7 @@ public:
 		cout << "Operacion Set Less Than\n";
 		if(this->rs < this->rt) res = 1;
 		else res = 0;
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << (int)res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -281,7 +303,7 @@ public:
 		cout << "imm: " << imm << endl;
 		cout << "Operacion ALU suma inmediata\n";
 		res = this->rs + imm;
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -329,7 +351,7 @@ public:
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU and\n";
 		res = this->rs & this->rt;
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -349,7 +371,7 @@ public:
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU or\n";
 		res = this->rs | this->rt;
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -369,7 +391,7 @@ public:
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU xor\n";
 		res = this->rs ^ this->rt;
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -719,16 +741,6 @@ int main(int argc, char *argv[]) {
 	while(1){
 		MIPS->call();
 	}
-	/*MIPS->add(3, 4, 5);
-	//MIPS.sub(10, 5, 5);
-	//MIPS.addi(3, 3, 5);
-	//MIPS.AND(6, 3, 3);
-	//MIPS.OR(7, 3, 6);
-	//MIPS.XOR(10, 7, 6);
-	MIPS->andi(4, 3, 10);
-	MIPS->ori(7, 3, 6);
-	MIPS->xori(7, 3, 4);*/
-	//}
 	delete MIPS;
 	return 0;
 }
