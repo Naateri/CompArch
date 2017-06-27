@@ -2,8 +2,12 @@
 #include <vector>
 #include <string>
 #include <cstdlib>
+#include <sstream>
 
 using namespace std;
+
+int erres[3];
+
 int busqui(string funci, string *punte){
 	for(int i=0;i<23;i++){
 		if(funci == *(punte+i)){
@@ -23,6 +27,25 @@ vector<int> MakeVector(){
 void makeArray(int *a){
 	for (int i = 0; i < 32; i++)
 		*(a+i) = 1;
+}
+
+string interpretaInstr(string lol){
+	string instr, nums;
+	int *ers = erres;
+	for(int i = 0; i < lol.size(); i++){
+		if(lol[i] != ' ' && lol[i] > '@'){
+			instr += lol[i];
+		} else if (lol[i] >= '0' && lol[i] <= '9'){
+			nums += lol[i];
+		}
+		if (nums.size() >= 0 && lol[i] == ' '){
+			stringstream ss(nums);
+			ss >> *ers; 
+			nums.clear();
+			ers++;
+		}
+	}
+	return instr;
 }
 
 class CicloSimple{
@@ -161,9 +184,9 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 0;
 		this->inst = "add";
-		this->rt = regs.at(rt);
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -171,7 +194,7 @@ public:
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU suma\n";
 		res = this->rs + this->rt;
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -190,9 +213,9 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 0;
 		this->inst = "sub";
-		this->rt = regs.at(rt);
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -219,9 +242,9 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 0;
 		this->inst = "slt";
-		this->rt = regs.at(rt);
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		bool res;
 		interpretar();
 		cout << "Reg file:\n";
@@ -248,8 +271,9 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 0;
 		this->inst = "addi";
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		//this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -275,8 +299,8 @@ public:
 		this->BrType = 0;
 		this->PCSrc = 0;
 		this->inst = "slti";
-		this->rt = regs.at(rt);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		//this->rd = rd;
 		bool res;
 		interpretar();
 		cout << "Reg file:\n";
@@ -295,9 +319,9 @@ public:
 		this->fn = 36;
 		this->LogicFn = 0;
 		this->inst = "and";
-		this->rt = regs.at(rt);
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -315,9 +339,9 @@ public:
 		this->fn = 37;
 		this->LogicFn = 1;
 		this->inst = "or";
-		this->rt = regs.at(rt);
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -335,9 +359,9 @@ public:
 		this->fn = 38;
 		this->LogicFn = 2;
 		this->inst = "xor";
-		this->rt = regs.at(rt);
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -356,9 +380,9 @@ public:
 		this->LogicFn = 3;
 		this->PCSrc = 0;
 		this->inst = "nor";
-		this->rt = regs.at(rt);
-		this->rs = regs.at(rs);
-		this->rd = rd;
+		this->rt = regs.at(this->rt);
+		this->rs = regs.at(this->rs);
+		//this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -366,7 +390,7 @@ public:
 		cout << "rt: " << this->rt << endl;
 		cout << "Operacion ALU nor\n";
 		res = ~(this->rs | this->rt);
-		regs.at(rd) = res;
+		regs.at(this->rd) = res;
 		cout << "Resultado guardado en " << rd << ": " << res << endl;
 		cout << "Guardando resultados.\n";
 		cout << endl;
@@ -561,7 +585,7 @@ public:
 		this->inst = "beq";
 		interpretar();
 		cout << "Operacion Equal than\n";
-		if (rs == rt) cout << "Saltando a " << L << endl;
+		if (this->rs == this->rt) cout << "Saltando a " << L << endl;
 		else cout << "No pasa nada.\n";
 	}
 	void bne(int rs, int rt, string L){
@@ -576,7 +600,7 @@ public:
 		this->inst = "bne";
 		interpretar();
 		cout << "Operacion Not Equal than\n";
-		if (rs != rt) cout << "Saltando a " << L << endl;
+		if (this->rs != this->rt) cout << "Saltando a " << L << endl;
 		else cout << "No pasa nada.\n";
 	}
 	void jal(string L){
@@ -600,7 +624,12 @@ public:
 		string funcion;
 		int funqui;
 		getline(cin, funcion);
+		funcion = interpretaInstr(funcion);
 		funqui = busqui(funcion,arreglito);
+		this->rd = erres[0];
+		//cout << this->rd << endl;
+		this->rs = erres[1];
+		this->rt = erres[2];
 		switch(funqui){
 		case 0:
 			this->add(1, 2, 3);
