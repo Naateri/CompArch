@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int main(int argc, char *argv[]) {
+	cout<<"                                          "<<endl;
+	cout<<"                                          "<<endl;
+	cout<<"                                          "<<endl;
+	cout<<"                                          "<<endl;
+	cout<<"    ______________                          "<<endl;
+	cout<<"   |              |  <-------------------  "<<endl;
+	cout<<" - | Next Address |  <---                |       "<<endl;
+	cout<<"|  |______________|     |                | j      "<<endl;
+	cout<<"|            ___________|                | jal             "<<endl;
+	cout<<"|    ____   |       ___________          |                    "<<endl;
+	cout<<"|   |    |  |      |           |         |      "<<endl;
+	cout<<"- > | PC | ------> | Ins cache | --o--o--o                                      "<<endl;
+	cout<<"    |____|         |___________|   |  |         "<<endl;
+	cout<<"                                   |  |      "<<endl;
+	cout<<"                                op |  | fun      "<<endl;
+	cout<<"                                   |  |      "<<endl;
+	cout<<"                                   |  |      "<<endl;
+	cout<<"                                          "<<endl;
+	cout<<"                                          "<<endl;
+	
+	
+	
+	
