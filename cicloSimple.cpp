@@ -16,7 +16,7 @@ int busqui(string funci, string *punte){
 vector<int> MakeVector(){
 	vector<int> v;
 	for (int i = 0; i < 32; i++)
-		v.push_back(1);
+		v.push_back(i+1);
 	return v;
 }
 
@@ -163,6 +163,7 @@ public:
 		this->inst = "add";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -191,6 +192,7 @@ public:
 		this->inst = "sub";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -219,6 +221,7 @@ public:
 		this->inst = "slt";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		bool res;
 		interpretar();
 		cout << "Reg file:\n";
@@ -246,6 +249,7 @@ public:
 		this->PCSrc = 0;
 		this->inst = "addi";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -272,6 +276,7 @@ public:
 		this->PCSrc = 0;
 		this->inst = "slti";
 		this->rt = regs.at(rt);
+		this->rd = rd;
 		bool res;
 		interpretar();
 		cout << "Reg file:\n";
@@ -292,6 +297,7 @@ public:
 		this->inst = "and";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -311,6 +317,7 @@ public:
 		this->inst = "or";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -330,6 +337,7 @@ public:
 		this->inst = "xor";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -350,6 +358,7 @@ public:
 		this->inst = "nor";
 		this->rt = regs.at(rt);
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -388,6 +397,7 @@ public:
 		this->PCSrc = 0;
 		this->inst = "andi";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -414,6 +424,7 @@ public:
 		this->PCSrc = 0;
 		this->inst = "ori";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
@@ -440,6 +451,7 @@ public:
 		this->PCSrc = 0;
 		this->inst = "xori";
 		this->rs = regs.at(rs);
+		this->rd = rd;
 		int res = 0;
 		interpretar();
 		cout << "Reg file:\n";
